@@ -1,25 +1,69 @@
-import { Appbar, Button } from "react-native-paper";
-import { StyleSheet, Text, View } from "react-native";
+import React, { Component } from "react";
+import { StyleSheet, Text, View, Image } from "react-native";
 
-export default function Home() {
-  return (
-    <View>
-      <Appbar.Header style={{ width: "100%" }}>
-        <Appbar.BackAction onPress={() => {}} />
-        <Appbar.Content title="Title" />
-        <Appbar.Action icon="calendar" onPress={() => {}} />
-        <Appbar.Action icon="magnify" onPress={() => {}} />
-      </Appbar.Header>
+import SwipeCards from "react-native-swipe-cards";
 
-      <Text style={{ height: 100 }}>Hello, it's me.</Text>
+const Card = ({ text, backgroundColor }) => (
+  <View style={[styles.card, { backgroundColor }]}>
+    <Text>{text}</Text>
+  </View>
+);
 
-      <Button
-        icon="camera"
-        mode="contained"
-        onPress={() => console.log("Pressed")}
-      >
-        Press me
-      </Button>
-    </View>
-  );
+const NoMoreCards = () => (
+  <View>
+    <Text style={styles.noMoreCardsText}>No more cards</Text>
+  </View>
+);
+
+export default class extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cards: [
+        { text: "Tomato", backgroundColor: "red" },
+        { text: "Aubergine", backgroundColor: "purple" },
+        { text: "Courgette", backgroundColor: "green" },
+        { text: "Blueberry", backgroundColor: "blue" },
+        { text: "Umm...", backgroundColor: "cyan" },
+        { text: "orange", backgroundColor: "orange" },
+      ],
+    };
+  }
+
+  handleYup(card) {
+    console.log(`Yup for ${card.text}`);
+  }
+  handleNope(card) {
+    console.log(`Nope for ${card.text}`);
+  }
+  handleMaybe(card) {
+    console.log(`Maybe for ${card.text}`);
+  }
+  render() {
+    // If you want a stack of cards instead of one-per-one view, activate stack mode
+    // stack={true}
+    return (
+      <SwipeCards
+        cards={this.state.cards}
+        renderCard={(cardData) => <Card {...cardData} />}
+        renderNoMoreCards={() => <NoMoreCards />}
+        handleYup={this.handleYup}
+        handleNope={this.handleNope}
+        handleMaybe={this.handleMaybe}
+        hasMaybeAction
+      />
+    );
+  }
 }
+
+const styles = StyleSheet.create({
+  card: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 300,
+    height: 300,
+  },
+  noMoreCardsText: {
+    fontSize: 22,
+  },
+});
