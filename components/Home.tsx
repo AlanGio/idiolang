@@ -1,13 +1,35 @@
-import React, { Component } from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Text, View, Button, Alert } from "react-native";
+import { Divider } from "react-native-paper";
 
 import SwipeCards from "react-native-swipe-cards";
 
-const Card = ({ text, backgroundColor }) => (
-  <View style={[styles.card, { backgroundColor }]}>
-    <Text>{text}</Text>
-  </View>
-);
+const Card = ({ text, translation, backgroundColor }) => {
+  const [showTranslation, setShowTranslation] = useState<boolean>(false);
+  return (
+    <View style={[styles.card, { backgroundColor }]}>
+      <Text>{text}</Text>
+
+      <Divider style={{ marginTop: 32 }} />
+      <Button
+        onPress={() => setShowTranslation(!showTranslation)}
+        title="I know it"
+        accessibilityLabel="I know the answer"
+      />
+      <Divider style={{ marginTop: 16 }} />
+
+      <Text
+        style={{
+          display: showTranslation ? "flex" : "none",
+          padding: 10,
+          backgroundColor: "#ccc",
+        }}
+      >
+        {translation}
+      </Text>
+    </View>
+  );
+};
 
 const NoMoreCards = () => (
   <View>
@@ -20,12 +42,17 @@ export default class extends React.Component {
     super(props);
     this.state = {
       cards: [
-        { text: "Tomato", backgroundColor: "red" },
-        { text: "Aubergine", backgroundColor: "purple" },
-        { text: "Courgette", backgroundColor: "green" },
-        { text: "Blueberry", backgroundColor: "blue" },
-        { text: "Umm...", backgroundColor: "cyan" },
-        { text: "orange", backgroundColor: "orange" },
+        { text: "Tomate", translation: "Tomato", backgroundColor: "lightgrey" },
+        { text: "Perro", translation: "Dog", backgroundColor: "lightgrey" },
+        { text: "Gato", translation: "Cat", backgroundColor: "lightgrey" },
+        {
+          text: "Hamburguesa",
+          translation: "Burger",
+          backgroundColor: "lightgrey",
+        },
+        { text: "Cabeza", translation: "Head", backgroundColor: "lightgrey" },
+        { text: "Brazo", translation: "Arm", backgroundColor: "lightgrey" },
+        { text: "Tomate", translation: "Tomato", backgroundColor: "lightgrey" },
       ],
     };
   }
